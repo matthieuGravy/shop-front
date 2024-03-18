@@ -1,6 +1,9 @@
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../../store/actions/actionConnection";
+
 //import ReCAPTCHA from "react-google-recaptcha";
 
 interface MyFormValues {
@@ -10,6 +13,7 @@ interface MyFormValues {
 
 const Contactpage = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const dispatch = useDispatch();
   /*
   const handleRecaptcha = (value) => {
     console.log(value);
@@ -46,9 +50,15 @@ const Contactpage = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-
-      //const data = await response.json();
+      const data = await response.json();
+      const user = {
+        id: data.id,
+        email: data.email,
+        jwt: data.jwt,
+      };
+      dispatch(loginSuccess(user));
       setFormSubmitted(true);
+
       console.log("Form submitted");
     } catch (error) {
       console.error(

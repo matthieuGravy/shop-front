@@ -11,7 +11,9 @@ interface LogoutAction {
 }
 
 export type UserActionTypes = LoginSuccessAction | LogoutAction;
+
 export const loginSuccess = (user: User): UserActionTypes => {
+  console.log("loginSuccess user:", user);
   if (!user.id) {
     throw new Error("User ID is missing in the payload");
   }
@@ -21,9 +23,12 @@ export const loginSuccess = (user: User): UserActionTypes => {
   };
 };
 
-export const logout = (): UserActionTypes => ({
-  type: LOGOUT,
-});
+export const logout = (): UserActionTypes => (
+  console.log("logout"),
+  {
+    type: LOGOUT,
+  }
+);
 
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 
