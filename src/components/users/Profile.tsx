@@ -2,6 +2,7 @@ import { Formik, Field, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { RootState } from "../../store/";
 import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 interface ProfileValues {
   firstname: string;
@@ -15,7 +16,45 @@ interface ProfileValues {
 
 const Profile = () => {
   const user = useSelector((state: RootState) => state.user.user);
+  const [isEditing, setIsEditing] = useState({
+    firstname: false,
+    lastname: false,
+    genre: false,
+    street: false,
+    city: false,
+    zip: false,
+    country: false,
+  });
+
   const id = user ? user.id : "";
+
+  const [userData, setUserData] = useState([]);
+
+  const fetchUser = async () => {
+    try {
+      const response = await fetch(`http://localhost:3000/api/profile/${id}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      console.log(data);
+      return data; // Ajoutez cette ligne
+    } catch (error) {
+      console.error(
+        "Il y a eu un problème avec votre fetch opération: ",
+        error
+      );
+    }
+  };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await fetchUser();
+      setUserData(data);
+    };
+
+    fetchData();
+  }, []);
 
   const ProfileSchema = Yup.object().shape({
     firstname: Yup.string()
@@ -73,49 +112,162 @@ const Profile = () => {
     <>
       {user ? (
         <>
-          <Formik
-            initialValues={{
-              firstname: user ? user.firstname : "",
-              lastname: user ? user.lastname : "",
-              genre: user ? user.genre : "",
-              street: user ? user.street : "",
-              city: user ? user.city : "",
-              zip: user ? user.zip : "",
-              country: user ? user.country : "",
-            }}
-            validationSchema={ProfileSchema}
-            onSubmit={submitForm}
-          >
-            {({ isSubmitting }) => (
-              <Form className="flex flex-col">
-                <label htmlFor="firstname">Prénom</label>
-                <Field id="firstname" name="firstname" placeholder="Prénom" />
-                <label htmlFor="lastname">Nom</label>
-                <Field id="lastname" name="lastname" placeholder="Nom" />
-                <label htmlFor="genre">Genre</label>
-                <Field as="select" id="genre" name="genre">
-                  <option value="">Sélectionnez un genre</option>
-                  <option value="homme">Homme</option>
-                  <option value="femme">Femme</option>
-                  <option value="autre">Autre</option>
-                </Field>
-                <label htmlFor="street">Adresse</label>
-                <Field id="street" name="street" placeholder="Adresse" />
-                <label htmlFor="city">Ville</label>
-                <Field id="city" name="city" placeholder="Ville" />
-                <label htmlFor="zip">Code postal</label>
-                <Field id="zip" name="zip" placeholder="Code postal" />
-                <label htmlFor="country">Pays</label>
-                <Field id="country" name="country" placeholder="Pays" />
-                <button type="submit" disabled={isSubmitting}>
-                  Enregistrer
-                </button>
-              </Form>
-            )}
-          </Formik>
+          {userData ? (
+            <Formik
+              initialValues={{
+                firstname: userData.firstname,
+                lastname: userData.lastname,
+                genre: userData.genre,
+                street: userData.street,
+                city: userData.city,
+                zip: userData.zip,
+                country: userData.country,
+              }}
+              validationSchema={ProfileSchema}
+              onSubmit={submitForm}
+            >
+              {({ isSubmitting }) => (
+                <>
+                  <Form className="flex flex-col">
+                    <label htmlFor="firstname">Firstname</label>
+                    {isEditing.firstname ? (
+                      <Field
+                        id="firstname"
+                        name="firstname"
+                        onBlur={() =>
+                          setIsEditing({ ...isEditing, firstname: false })
+                        }
+                      />
+                    ) : (
+                      <>
+                        <div>{userData.firstname}</div>
+                        <button
+                          onClick={() =>
+                            setIsEditing({ ...isEditing, firstname: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+                    <label htmlFor="lastname">Lastname</label>
+                    {isEditing.lastname ? (
+                      <Field id="lastname" name="lastname" />
+                    ) : (
+                      <>
+                        <div
+                          className="text-red-300"
+                          onClick={() =>
+                            setIsEditing({ ...isEditing, lastname: true })
+                          }
+                        >
+                          {userData.lastname}
+                        </div>
+                        <button
+                          onClick={() =>
+                            setIsEditing({ ...isEditing, lastname: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+                    <label htmlFor="genre">Genre</label>
+                    {isEditing.genre ? (
+                      <Field as="select" id="genre" name="genre">
+                        <option value="">Sélectionnez un genre</option>
+                        <option value="homme">Homme</option>
+                        <option value="femme">Femme</option>
+                        <option value="autre">Autre</option>
+                      </Field>
+                    ) : (
+                      <>
+                        <div className="">{userData.genre}</div>
+                        <button
+                          onClick={() =>
+                            setIsEditing({ ...isEditing, genre: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+                    <label htmlFor="street">Adresse</label>
+                    {isEditing.street ? (
+                      <Field id="street" name="street" />
+                    ) : (
+                      <>
+                        <div className="">{userData.street}</div>
+                        <button
+                          onClick={() =>
+                            setIsEditing({ ...isEditing, street: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+                    <label htmlFor="city">City</label>
+                    {isEditing.city ? (
+                      <Field id="city" name="city" />
+                    ) : (
+                      <>
+                        <div className="">{userData.city}</div>
+                        <button
+                          onClick={() =>
+                            setIsEditing({ ...isEditing, city: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+
+                    <label htmlFor="zip">Zip code</label>
+                    {isEditing.zip ? (
+                      <Field id="zip" name="zip" />
+                    ) : (
+                      <>
+                        <div className="">{userData.zip}</div>
+                        <button
+                          onClick={() =>
+                            setIsEditing({ ...isEditing, zip: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+
+                    <label htmlFor="country">Country</label>
+                    {isEditing.country ? (
+                      <Field id="country" name="country" />
+                    ) : (
+                      <>
+                        <div className="">{userData.country}</div>
+                        <button
+                          onClick={() =>
+                            setIsEditing({ ...isEditing, country: true })
+                          }
+                        >
+                          Edit
+                        </button>
+                      </>
+                    )}
+
+                    <button type="submit" disabled={isSubmitting}>
+                      Send
+                    </button>
+                  </Form>
+                </>
+              )}
+            </Formik>
+          ) : (
+            <p>Loading...</p>
+          )}
         </>
       ) : (
-        <p>Vous devez être connecté pour accéder à cette page</p>
+        <p>You must be logged in to access this page.</p>
       )}
     </>
   );
