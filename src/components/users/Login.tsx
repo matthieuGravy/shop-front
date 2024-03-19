@@ -1,9 +1,8 @@
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../../store/actions/actionConnection";
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 //import ReCAPTCHA from "react-google-recaptcha";
 
@@ -13,8 +12,8 @@ interface MyFormValues {
 }
 
 const Contactpage = () => {
-  const [formSubmitted, setFormSubmitted] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   /*
   const handleRecaptcha = (value) => {
@@ -58,10 +57,8 @@ const Contactpage = () => {
         email: data.email,
         jwt: data.jwt,
       };
-      console.log("user:", user);
       dispatch(loginSuccess(user));
-      setFormSubmitted(true);
-
+      navigate("/");
       console.log("Form submitted");
     } catch (error) {
       console.error(
@@ -74,74 +71,70 @@ const Contactpage = () => {
   };
   return (
     <>
-      {formSubmitted ? (
-        <p>Votre formulaire a bien été envoyé</p>
-      ) : (
-        /*<ReCAPTCHA sitekey="votre-clé-de-site" onChange={handleRecaptcha}> */
-        <Formik
-          initialValues={{
-            password: "",
-            email: "",
-          }}
-          validationSchema={SignupSchema}
-          onSubmit={submitForm}
-        >
-          {({ errors, touched, values }) => (
-            <>
-              <Form className="">
-                <section className="">
-                  <label className="relative">
-                    <Field
-                      name="email"
-                      type="email"
-                      placeholder="Email"
-                      className={` ${
-                        errors.email && touched.email
-                          ? "border-red-500"
-                          : values.email === ""
-                          ? "border-natural-50"
-                          : "border-green-500"
-                      }`}
-                    />
-                    {errors.email && touched.email ? (
-                      <p className="absolute text-red-500 left-1">
-                        {errors.email}
-                      </p>
-                    ) : null}
-                  </label>
-                  <label className="relative">
-                    <Field
-                      type="password"
-                      name="password"
-                      placeholder="Password"
-                      className={`${
-                        errors.password && touched.password
-                          ? "border-red-500"
-                          : values.nom === ""
-                          ? "border-natural-50"
-                          : "border-green-500"
-                      }`}
-                    />
-                    {errors.password && touched.password ? (
-                      <p className="absolute text-red-500 left-1">
-                        {errors.password}
-                      </p>
-                    ) : null}
-                  </label>
-                </section>
-                <button type="submit" className="">
-                  Envoyer
-                </button>
-              </Form>
-              <article>
-                <p>Pas encore inscrit ?</p>
-                <NavLink to="/register">Inscrivez-vous</NavLink>
-              </article>
-            </>
-          )}
-        </Formik>
-        /*</ReCAPTCHA>*/
-      )}
+      {/*<ReCAPTCHA sitekey="votre-clé-de-site" onChange={handleRecaptcha}> */}
+      <Formik
+        initialValues={{
+          password: "",
+          email: "",
+        }}
+        validationSchema={SignupSchema}
+        onSubmit={submitForm}
+      >
+        {({ errors, touched, values }) => (
+          <>
+            <Form className="">
+              <section className="">
+                <label className="relative">
+                  <Field
+                    name="email"
+                    type="email"
+                    placeholder="Email"
+                    className={` ${
+                      errors.email && touched.email
+                        ? "border-red-500"
+                        : values.email === ""
+                        ? "border-natural-50"
+                        : "border-green-500"
+                    }`}
+                  />
+                  {errors.email && touched.email ? (
+                    <p className="absolute text-red-500 left-1">
+                      {errors.email}
+                    </p>
+                  ) : null}
+                </label>
+                <label className="relative">
+                  <Field
+                    type="password"
+                    name="password"
+                    placeholder="Password"
+                    className={`${
+                      errors.password && touched.password
+                        ? "border-red-500"
+                        : values.nom === ""
+                        ? "border-natural-50"
+                        : "border-green-500"
+                    }`}
+                  />
+                  {errors.password && touched.password ? (
+                    <p className="absolute text-red-500 left-1">
+                      {errors.password}
+                    </p>
+                  ) : null}
+                </label>
+              </section>
+              <button type="submit" className="">
+                Envoyer
+              </button>
+            </Form>
+            <article>
+              <p>Pas encore inscrit ?</p>
+              <NavLink to="/register">Inscrivez-vous</NavLink>
+            </article>
+          </>
+        )}
+      </Formik>
+      {/*</ReCAPTCHA>*/}
     </>
   );
 };

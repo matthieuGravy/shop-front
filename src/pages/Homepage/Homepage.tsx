@@ -2,6 +2,7 @@ import Login from "../../components/users/Login";
 import Logout from "../../components/users/Logout";
 import { RootState } from "../../store/";
 import { useSelector } from "react-redux";
+import { ButtonAction } from "../../components/blocs/Buttons";
 
 const Homepage = () => {
   const user = useSelector((state: RootState) => state.user);
@@ -14,7 +15,7 @@ const Homepage = () => {
         <h1>Jumbotop Home</h1>
         {user.user ? (
           <>
-            <h2>Welcome, {user.id}</h2>
+            <h2>Welcome, {user.user.email}</h2>
             <h3>Logout</h3>
             <Logout />
           </>
@@ -25,6 +26,7 @@ const Homepage = () => {
           </>
         )}
       </div>
+      <ButtonAction children="Test" />
     </>
   );
 };

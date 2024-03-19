@@ -3,7 +3,10 @@ import { useNavigate } from "react-router-dom";
 
 import { logout } from "../../store/actions/actionConnection";
 
-const Logout = () => {
+interface LogoutProps {
+  onClick?: () => void;
+}
+const Logout: React.FC<LogoutProps> = ({ onClick }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const navigateToHomepage = () => navigate("/");
@@ -26,7 +29,16 @@ const Logout = () => {
     }
   };
 
-  return <button onClick={handleLogout}>Disconnect</button>;
+  return (
+    <button
+      onClick={() => {
+        handleLogout();
+        onClick && onClick();
+      }}
+    >
+      Disconnect
+    </button>
+  );
 };
 
 export default Logout;

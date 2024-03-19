@@ -4,7 +4,8 @@ import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useSelector } from "react-redux";
 
 import { RootState } from "../store/";
-
+import { ButtonAction, ButtonNavLinks } from "./Buttons";
+import Logout from "../users/Logout";
 import AccountIcon from "../icons/AccountIcon";
 import CastIcon from "../icons/CastIcon";
 import CroixIcon from "../icons/CroixIcon";
@@ -12,9 +13,10 @@ import HamburgerIcon from "../icons/HamburgerIcon";
 import WishIcon from "../icons/WishIcon";
 
 function Topbar() {
-  const user = useSelector((state: RootState) => state.user);
+  const user = useSelector((state: RootState) => state.user.user);
   const [isNavVisible, setIsNavVisible] = useState<boolean>(false);
   const [isHidden, setIsHidden] = useState<boolean>(false);
+  const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const { scrollYProgress } = useScroll();
   const { scrollY } = useScroll();
@@ -24,6 +26,9 @@ function Topbar() {
   };
   const closeNav = () => {
     setIsNavVisible(false);
+  };
+  const toggleAccount = () => {
+    setIsOpen(!isOpen);
   };
 
   useMotionValueEvent(scrollY, "change", (latest: number) => {
@@ -65,9 +70,7 @@ function Topbar() {
         className="fixed top-0 w-full z-40"
       >
         <section
-          className={`flex justify-between bg-orange-500 items-center min-h-14 ${
-            isNavVisible ? "bg-transparent " : "bg-orange-500"
-          }`}
+          className={`flex justify-between text-yellow-300 items-center min-h-14 relative`}
         >
           <button
             onClick={toggleNav}
@@ -102,33 +105,54 @@ function Topbar() {
             }`}
           >
             {user ? (
-              <ul className="flex-1 flex justify-end pe-3 self-center ">
-                {/* My acount*/}
-                <li className="px-2">
-                  <NavLink to="/my-account/info" onClick={closeNav}>
-                    {/* account */}
-                    <AccountIcon />
-                  </NavLink>
-                </li>
-                {/* <whishlist*/}
-                <li className="px-2">
-                  <NavLink to="/my-account/wishlist" onClick={closeNav}>
-                    <WishIcon />
-                  </NavLink>
-                </li>
-                {/* Cast */}
-                <li className="px-2">
-                  <NavLink to="/my-account/cast" onClick={closeNav}>
-                    <CastIcon />
-                  </NavLink>
-                </li>
-              </ul>
+              <>
+                <ul className="flex-1 flex justify-end pe-3 self-center ">
+                  {/* My acount*/}
+                  <li>
+                    <ButtonAction
+                      children={<AccountIcon />}
+                      onClick={toggleAccount}
+                    />
+                  </li>
+                  <li className="px-2"></li>
+                  {/* <whishlist*/}
+                  <li className="px-2">
+                    <NavLink to="/my-account/wishlist" onClick={closeNav}>
+                      <WishIcon />
+                    </NavLink>
+                  </li>
+                  {/* Cast */}
+                  <li className="px-2">
+                    <NavLink to="/my-account/cast" onClick={closeNav}>
+                      <CastIcon />
+                    </NavLink>
+                  </li>
+                </ul>
+              </>
             ) : (
               <NavLink to="/login" onClick={closeNav}>
                 {/* account */}
                 <AccountIcon />
               </NavLink>
             )}
+          </section>
+          <section
+            className={`absolute top-10 right-0 bg-stone-600 ${
+              isOpen ? "flex" : "hidden"
+            }`}
+          >
+            <ul className="">
+              <li>
+                <ButtonNavLinks
+                  to="/account"
+                  text="Account"
+                  onClick={toggleAccount}
+                />
+              </li>
+              <li>
+                <Logout onClick={toggleAccount} />
+              </li>
+            </ul>
           </section>
         </section>
       </motion.header>

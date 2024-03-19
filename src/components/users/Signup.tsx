@@ -8,7 +8,7 @@ interface MyFormValues {
   password: string;
 }
 
-const Contactpage = () => {
+const Signup = () => {
   const [formSubmitted, setFormSubmitted] = useState(false);
   /*
   const handleRecaptcha = (value) => {
@@ -127,4 +127,4 @@ const Contactpage = () => {
   );
 };
 
-export default Contactpage;
+export default Signup;
