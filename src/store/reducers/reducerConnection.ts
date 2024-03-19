@@ -20,7 +20,6 @@ export const userReducer = (
 ): UserState => {
   switch (action.type) {
     case LOGIN_SUCCESS:
-      return { ...state, user: action.payload };
     case SIGNUP_SUCCESS:
       return {
         ...state,

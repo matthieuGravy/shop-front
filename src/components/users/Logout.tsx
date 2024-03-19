@@ -6,7 +6,7 @@ import { logout } from "../../store/actions/actionConnection";
 const Logout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  //const navigateToHomepage = () => navigate("/");
+  const navigateToHomepage = () => navigate("/");
 
   const handleLogout = async () => {
     try {
@@ -19,6 +19,7 @@ const Logout = () => {
       }
       console.log("déconnecté avant");
       dispatch(logout());
+      navigateToHomepage();
       console.log("déconnecté après");
     } catch (error) {
       console.error("Logout error:", error);

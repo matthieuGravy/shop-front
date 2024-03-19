@@ -13,31 +13,37 @@ interface LogoutAction {
 export type UserActionTypes = LoginSuccessAction | LogoutAction;
 
 export const loginSuccess = (user: User): UserActionTypes => {
-  console.log("loginSuccess user:", user);
   if (!user.id) {
     throw new Error("User ID is missing in the payload");
   }
   return {
     type: LOGIN_SUCCESS,
-    payload: user,
+    payload: {
+      id: user.id,
+      email: user.email,
+      jwt: user.jwt,
+    },
   };
 };
 
-export const logout = (): UserActionTypes => (
-  console.log("logout"),
-  {
+export const logout = (): UserActionTypes => {
+  return {
     type: LOGOUT,
-  }
-);
+  };
+};
 
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 
-export const signupSuccess = (user) => {
-  if (!user._id) {
+export const signupSuccess = (user: User): UserActionTypes => {
+  if (!user.id) {
     throw new Error("User ID is missing in the payload");
   }
   return {
     type: SIGNUP_SUCCESS,
-    payload: user,
+    payload: {
+      id: user.id,
+      email: user.email,
+      jwt: user.jwt,
+    },
   };
 };

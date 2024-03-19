@@ -13,7 +13,6 @@ import WishIcon from "../icons/WishIcon";
 
 function Topbar() {
   const user = useSelector((state: RootState) => state.user);
-
   const [isNavVisible, setIsNavVisible] = useState<boolean>(false);
   const [isHidden, setIsHidden] = useState<boolean>(false);
 
@@ -125,19 +124,10 @@ function Topbar() {
                 </li>
               </ul>
             ) : (
-              <ul className="flex-1 flex justify-end pe-3 self-center">
-                <li className="px-2">
-                  <NavLink to="/login" onClick={closeNav}>
-                    {/* account */}
-                    <AccountIcon />
-                  </NavLink>
-                </li>
-                <li className="px-2">
-                  <NavLink to="/signup" onClick={closeNav}>
-                    Register
-                  </NavLink>
-                </li>
-              </ul>
+              <NavLink to="/login" onClick={closeNav}>
+                {/* account */}
+                <AccountIcon />
+              </NavLink>
             )}
           </section>
         </section>
