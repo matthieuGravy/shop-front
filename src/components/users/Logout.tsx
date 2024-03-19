@@ -5,8 +5,9 @@ import { logout } from "../../store/actions/actionConnection";
 
 interface LogoutProps {
   onClick?: () => void;
+  className?: string;
 }
-const Logout: React.FC<LogoutProps> = ({ onClick }) => {
+const Logout: React.FC<LogoutProps> = ({ onClick, className }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const navigateToHomepage = () => navigate("/");
@@ -31,6 +32,7 @@ const Logout: React.FC<LogoutProps> = ({ onClick }) => {
 
   return (
     <button
+      className={`${className}`}
       onClick={() => {
         handleLogout();
         onClick && onClick();

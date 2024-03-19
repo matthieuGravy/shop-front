@@ -69,8 +69,8 @@ function Topbar() {
         transition={{ duration: 0.3 }}
         className="fixed top-0 w-full z-40"
       >
-        <section
-          className={`flex justify-between text-yellow-300 items-center min-h-14 relative`}
+        <nav
+          className={`flex justify-between text-yellow-300 items-center min-h-14 relative bg-stone-600`}
         >
           <button
             onClick={toggleNav}
@@ -104,9 +104,9 @@ function Topbar() {
               isNavVisible ? "hidden" : "flex"
             }`}
           >
-            {user ? (
-              <>
-                <ul className="flex-1 flex justify-end pe-3 self-center ">
+            <ul className="flex-1 flex justify-end pe-3 self-center ">
+              {user ? (
+                <>
                   {/* My acount*/}
                   <li>
                     <ButtonAction
@@ -127,34 +127,55 @@ function Topbar() {
                       <CastIcon />
                     </NavLink>
                   </li>
-                </ul>
-              </>
-            ) : (
-              <NavLink to="/login" onClick={closeNav}>
-                {/* account */}
-                <AccountIcon />
-              </NavLink>
-            )}
+                </>
+              ) : (
+                <ButtonAction
+                  children={<AccountIcon />}
+                  onClick={toggleAccount}
+                />
+              )}
+            </ul>
           </section>
           <section
-            className={`absolute top-10 right-0 bg-stone-600 ${
+            className={`absolute top-16 right-2 bg-stone-600 rounded-lg ${
               isOpen ? "flex" : "hidden"
             }`}
           >
-            <ul className="">
-              <li>
-                <ButtonNavLinks
-                  to="/account"
-                  text="Account"
-                  onClick={toggleAccount}
-                />
-              </li>
-              <li>
-                <Logout onClick={toggleAccount} />
-              </li>
+            <ul className="w-32 text-center py-2 flex flex-col gap-y-2 ">
+              {user ? (
+                <>
+                  <li>
+                    <ButtonNavLinks
+                      to="/account"
+                      text="Account"
+                      onClick={toggleAccount}
+                    />
+                  </li>
+                  <li>
+                    <Logout onClick={toggleAccount} />
+                  </li>
+                </>
+              ) : (
+                <>
+                  <li>
+                    <ButtonNavLinks
+                      to="/login"
+                      text="Login"
+                      onClick={toggleAccount}
+                    />
+                  </li>
+                  <li>
+                    <ButtonNavLinks
+                      to="/register"
+                      text="Sign up"
+                      onClick={toggleAccount}
+                    />
+                  </li>
+                </>
+              )}
             </ul>
           </section>
-        </section>
+        </nav>
       </motion.header>
     </>
   );
