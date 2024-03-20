@@ -117,13 +117,13 @@ function Topbar() {
                   <li className="px-2"></li>
                   {/* <whishlist*/}
                   <li className="px-2">
-                    <NavLink to="/my-account/wishlist" onClick={closeNav}>
+                    <NavLink to="/wish" onClick={closeNav}>
                       <WishIcon />
                     </NavLink>
                   </li>
                   {/* Cast */}
                   <li className="px-2">
-                    <NavLink to="/my-account/cast" onClick={closeNav}>
+                    <NavLink to="/cast" onClick={closeNav}>
                       <CastIcon />
                     </NavLink>
                   </li>
