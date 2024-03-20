@@ -36,7 +36,6 @@ const Profile = () => {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
-      console.log(data);
       return data; // Ajoutez cette ligne
     } catch (error) {
       console.error(
@@ -127,6 +126,8 @@ const Profile = () => {
     }
   };
   const vide = "No data";
+  const classnameInput =
+    "bg-stone-700 rounded-lg focus-within:outline-yellow-400";
 
   return (
     <>
@@ -146,6 +147,7 @@ const Profile = () => {
                       <Field
                         id="firstname"
                         name="firstname"
+                        className={classnameInput}
                         onBlur={() => {
                           setIsEditing({ ...isEditing, firstname: false });
                           setInitialUserData({
@@ -193,6 +195,7 @@ const Profile = () => {
                       <Field
                         id="lastname"
                         name="lastname"
+                        className={classnameInput}
                         onBlur={() => {
                           setIsEditing({ ...isEditing, lastname: false });
                           setInitialUserData({
@@ -242,6 +245,7 @@ const Profile = () => {
                       <Field
                         as="select"
                         id="genre"
+                        className={classnameInput}
                         name="genre"
                         onBlur={() => {
                           setIsEditing({ ...isEditing, genre: false });
@@ -297,6 +301,7 @@ const Profile = () => {
                       <Field
                         id="street"
                         name="street"
+                        className={classnameInput}
                         onBlur={() => {
                           setIsEditing({ ...isEditing, street: false });
                           setInitialUserData({
@@ -346,6 +351,7 @@ const Profile = () => {
                       <Field
                         id="city"
                         name="city"
+                        className={classnameInput}
                         onBlur={() => {
                           setIsEditing({ ...isEditing, city: false });
                           setInitialUserData({
@@ -396,6 +402,7 @@ const Profile = () => {
                       <Field
                         id="zip"
                         name="zip"
+                        className={classnameInput}
                         inputMode="numeric"
                         onBlur={() => {
                           setIsEditing({ ...isEditing, zip: false });
@@ -449,6 +456,7 @@ const Profile = () => {
                       <Field
                         id="country"
                         name="country"
+                        className={classnameInput}
                         onBlur={() => {
                           setIsEditing({ ...isEditing, country: false });
                           setInitialUserData({
