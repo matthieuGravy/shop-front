@@ -139,7 +139,7 @@ const Profile = () => {
           >
             {({ isSubmitting, errors, touched }) => (
               <>
-                <Form className="grid grid-cols-3 gap-x-8">
+                <Form className="grid grid-cols-4 gap-x-8">
                   <label htmlFor="firstname">Firstname</label>
                   {isEditing.firstname ? (
                     <>
@@ -179,6 +179,13 @@ const Profile = () => {
                         Edit
                       </button>
                     </>
+                  )}
+                  {errors.firstname && touched.firstname ? (
+                    <p className="text-red-500 left-1">{errors.firstname}</p>
+                  ) : initialUserData.firstname.length === 0 ? (
+                    <p>{errors.firstname}</p>
+                  ) : (
+                    <div className="text-green-500">V</div>
                   )}
                   <label htmlFor="lastname">Lastname</label>
                   {isEditing.lastname ? (
@@ -221,6 +228,13 @@ const Profile = () => {
                         Edit
                       </button>
                     </>
+                  )}
+                  {errors.lastname && touched.lastname ? (
+                    <p className="text-red-500 left-1">{errors.lastname}</p>
+                  ) : initialUserData.lastname.length === 0 ? (
+                    <p>{errors.lastname}</p>
+                  ) : (
+                    <div className="text-green-500">V</div>
                   )}
                   <label htmlFor="genre">Genre</label>
                   {isEditing.genre ? (
@@ -270,6 +284,13 @@ const Profile = () => {
                       </button>
                     </>
                   )}
+                  {errors.genre && touched.genre ? (
+                    <p className="text-red-500 left-1">{errors.genre}</p>
+                  ) : initialUserData.genre.length === 0 ? (
+                    <p>{errors.genre}</p>
+                  ) : (
+                    <div className="text-green-500">V</div>
+                  )}
                   <label htmlFor="street">Adresse</label>
                   {isEditing.street ? (
                     <>
@@ -311,6 +332,13 @@ const Profile = () => {
                         Edit
                       </button>
                     </>
+                  )}
+                  {errors.street && touched.street ? (
+                    <p className="text-red-500 left-1">{errors.street}</p>
+                  ) : initialUserData.street.length === 0 ? (
+                    <p>{errors.street}</p>
+                  ) : (
+                    <div className="text-green-500">V</div>
                   )}
                   <label htmlFor="city">City</label>
                   {isEditing.city ? (
@@ -354,6 +382,13 @@ const Profile = () => {
                       </button>
                     </>
                   )}
+                  {errors.city && touched.city ? (
+                    <p className="text-red-500 left-1">{errors.city}</p>
+                  ) : initialUserData.city.length === 0 ? (
+                    <p>{errors.city}</p>
+                  ) : (
+                    <div className="text-green-500">V</div>
+                  )}
 
                   <label htmlFor="zip">Zip code</label>
                   {isEditing.zip ? (
@@ -370,11 +405,6 @@ const Profile = () => {
                           });
                         }}
                       />
-                      {errors.zip && touched.zip ? (
-                        <p className="absolute text-red-500 left-1">
-                          {errors.zip}
-                        </p>
-                      ) : null}
                       <button
                         type="button"
                         onClick={() =>
@@ -403,6 +433,14 @@ const Profile = () => {
                         Edit
                       </button>
                     </>
+                  )}
+
+                  {errors.zip && touched.zip ? (
+                    <p className="text-red-500 left-1">{errors.zip}</p>
+                  ) : initialUserData.zip.toString().length === 0 ? (
+                    <p>""</p>
+                  ) : (
+                    <div className="text-green-500">V</div>
                   )}
 
                   <label htmlFor="country">Country</label>
@@ -446,6 +484,13 @@ const Profile = () => {
                         Edit
                       </button>
                     </>
+                  )}
+                  {errors.country && touched.country ? (
+                    <p className="text-red-500 left-1">{errors.country}</p>
+                  ) : initialUserData.country.length === 0 ? (
+                    <p>{errors.country}</p>
+                  ) : (
+                    <div className="text-green-500">V</div>
                   )}
 
                   <button type="submit" disabled={isSubmitting}>
