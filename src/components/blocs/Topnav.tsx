@@ -5,12 +5,14 @@ import { useSelector } from "react-redux";
 
 import { RootState } from "../store/";
 import { ButtonAction, ButtonNavLinks } from "./Buttons";
+
 import Logout from "../users/Logout";
 import AccountIcon from "../icons/AccountIcon";
 import CastIcon from "../icons/CastIcon";
 import CroixIcon from "../icons/CroixIcon";
 import HamburgerIcon from "../icons/HamburgerIcon";
 import WishIcon from "../icons/WishIcon";
+import Navlinks from "./Navlinks";
 
 function Topbar() {
   const user = useSelector((state: RootState) => state.user.user);
@@ -70,7 +72,9 @@ function Topbar() {
         className="fixed top-0 w-full z-40"
       >
         <nav
-          className={`flex justify-between text-yellow-300 items-center min-h-14 relative bg-stone-600`}
+          className={`flex justify-between text-yellow-300 items-center min-h-14 relative bg-stone-600 ${
+            isNavVisible ? "shadow-lg bg-transparent" : "shadow-none"
+          }`}
         >
           <button
             onClick={toggleNav}
@@ -94,6 +98,9 @@ function Topbar() {
                 {/* croix */}
                 <CroixIcon />
               </button>
+
+              <Navlinks onClick={toggleNav} />
+
               <figure className="pb-12  lg:pb-0 flex justify-center lg:px-3 ">
                 <NavLink></NavLink>
               </figure>

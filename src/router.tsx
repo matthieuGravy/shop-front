@@ -8,6 +8,7 @@ import Storepage from "./pages/Storepage/Storepage";
 import Accountpage from "./pages/Accountpage/Accountpage";
 import Castpage from "./pages/Castpage/Castpage";
 import Wishpage from "./pages/Wishpage/Wishpage";
+import Contactpage from "./pages/Contactpage/Contactpage";
 
 export const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ export const router = createBrowserRouter([
       { path: "/account", element: <Accountpage /> },
       { path: "/cast", element: <Castpage /> },
       { path: "/wish", element: <Wishpage /> },
+      { path: "/contact", element: <Contactpage /> },
     ],
   },
 ]);
