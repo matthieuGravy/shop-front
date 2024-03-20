@@ -10,7 +10,7 @@ interface ProfileValues {
   genre: string;
   street: string;
   city: string;
-  zip: string;
+  zip: number;
   country: string;
 }
 
@@ -78,11 +78,11 @@ const Profile = () => {
     firstname: Yup.string()
       .max(50, "Maximum 50 characters")
       .min(2, "Minimum 2 characters")
-      .matches(/^[a-zA-Z]+$/, "Must contain only letters"),
+      .matches(/^[a-zA-Zéèêôï]+$/, "Must contain only letters"),
     lastname: Yup.string()
       .max(50, "Maximum 50 characters")
       .min(2, "Minimum 2 characters")
-      .matches(/^[a-zA-Z]+$/, "Must contain only letters"),
+      .matches(/^[a-zA-Zéèêôï]+$/, "Must contain only letters"),
     genre: Yup.string().oneOf(["Male", "Female", "Other"], "Invalid gender"),
     street: Yup.string()
       .max(50, "Maximum 50 characters")
@@ -91,7 +91,7 @@ const Profile = () => {
     city: Yup.string()
       .max(50, "Maximum 50 characters")
       .min(2, "Minimum 2 characters")
-      .matches(/^[a-zA-Z\s]{3,}$/, "Invalid city"),
+      .matches(/^[a-zA-Zéèêôï\s]{3,}$/, "Invalid city"),
     zip: Yup.string()
       .max(10, "Maximum 10 characters")
       .min(2, "Minimum 2 characters")
@@ -99,7 +99,7 @@ const Profile = () => {
     country: Yup.string()
       .max(50, "Maximum 50 characters")
       .min(2, "Minimum 2 characters")
-      .matches(/^[a-zA-Z\s]{3,}$/, "Invalid country"),
+      .matches(/^[a-zA-Zéèêôï\s]{3,}$/, "Invalid country"),
   });
   const submitForm = async (
     values: ProfileValues,
@@ -137,7 +137,7 @@ const Profile = () => {
             validationSchema={ProfileSchema}
             onSubmit={submitForm}
           >
-            {({ isSubmitting }) => (
+            {({ isSubmitting, errors, touched }) => (
               <>
                 <Form className="grid grid-cols-3 gap-x-8">
                   <label htmlFor="firstname">Firstname</label>
@@ -155,6 +155,7 @@ const Profile = () => {
                         }}
                       />
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, firstname: false })
                         }
@@ -170,6 +171,7 @@ const Profile = () => {
                           : initialUserData.firstname}
                       </div>
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, firstname: true })
                         }
@@ -193,6 +195,7 @@ const Profile = () => {
                         }}
                       />
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, lastname: false })
                         }
@@ -210,6 +213,7 @@ const Profile = () => {
                         )}
                       </div>
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, lastname: true })
                         }
@@ -220,12 +224,33 @@ const Profile = () => {
                   )}
                   <label htmlFor="genre">Genre</label>
                   {isEditing.genre ? (
-                    <Field as="select" id="genre" name="genre">
-                      <option value="">Sélectionnez un genre</option>
-                      <option value="homme">Homme</option>
-                      <option value="femme">Femme</option>
-                      <option value="autre">Autre</option>
-                    </Field>
+                    <>
+                      <Field
+                        as="select"
+                        id="genre"
+                        name="genre"
+                        onBlur={() => {
+                          setIsEditing({ ...isEditing, genre: false });
+                          setInitialUserData({
+                            ...initialUserData,
+                            genre: event.target.value,
+                          });
+                        }}
+                      >
+                        <option value="">Sélectionnez un genre</option>
+                        <option value="Male">Homme</option>
+                        <option value="Female">Femme</option>
+                        <option value="Other">Autre</option>
+                      </Field>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setIsEditing({ ...isEditing, genre: false })
+                        }
+                      >
+                        Change
+                      </button>
+                    </>
                   ) : (
                     <>
                       <div>
@@ -236,6 +261,7 @@ const Profile = () => {
                         )}
                       </div>
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, genre: true })
                         }
@@ -246,7 +272,27 @@ const Profile = () => {
                   )}
                   <label htmlFor="street">Adresse</label>
                   {isEditing.street ? (
-                    <Field id="street" name="street" />
+                    <>
+                      <Field
+                        id="street"
+                        name="street"
+                        onBlur={() => {
+                          setIsEditing({ ...isEditing, street: false });
+                          setInitialUserData({
+                            ...initialUserData,
+                            street: event.target.value,
+                          });
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setIsEditing({ ...isEditing, street: false })
+                        }
+                      >
+                        Change
+                      </button>
+                    </>
                   ) : (
                     <>
                       <div>
@@ -257,6 +303,7 @@ const Profile = () => {
                         )}
                       </div>
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, street: true })
                         }
@@ -267,7 +314,27 @@ const Profile = () => {
                   )}
                   <label htmlFor="city">City</label>
                   {isEditing.city ? (
-                    <Field id="city" name="city" />
+                    <>
+                      <Field
+                        id="city"
+                        name="city"
+                        onBlur={() => {
+                          setIsEditing({ ...isEditing, city: false });
+                          setInitialUserData({
+                            ...initialUserData,
+                            city: event.target.value,
+                          });
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setIsEditing({ ...isEditing, city: false })
+                        }
+                      >
+                        Change
+                      </button>
+                    </>
                   ) : (
                     <>
                       <div>
@@ -278,6 +345,7 @@ const Profile = () => {
                         )}
                       </div>
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, city: true })
                         }
@@ -289,7 +357,33 @@ const Profile = () => {
 
                   <label htmlFor="zip">Zip code</label>
                   {isEditing.zip ? (
-                    <Field id="zip" name="zip" />
+                    <>
+                      <Field
+                        id="zip"
+                        name="zip"
+                        inputMode="numeric"
+                        onBlur={() => {
+                          setIsEditing({ ...isEditing, zip: false });
+                          setInitialUserData({
+                            ...initialUserData,
+                            zip: event.target.value,
+                          });
+                        }}
+                      />
+                      {errors.zip && touched.zip ? (
+                        <p className="absolute text-red-500 left-1">
+                          {errors.zip}
+                        </p>
+                      ) : null}
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setIsEditing({ ...isEditing, zip: false })
+                        }
+                      >
+                        Change
+                      </button>
+                    </>
                   ) : (
                     <>
                       <div>
@@ -301,6 +395,7 @@ const Profile = () => {
                         )}
                       </div>
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, zip: true })
                         }
@@ -312,7 +407,27 @@ const Profile = () => {
 
                   <label htmlFor="country">Country</label>
                   {isEditing.country ? (
-                    <Field id="country" name="country" />
+                    <>
+                      <Field
+                        id="country"
+                        name="country"
+                        onBlur={() => {
+                          setIsEditing({ ...isEditing, country: false });
+                          setInitialUserData({
+                            ...initialUserData,
+                            country: event.target.value,
+                          });
+                        }}
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setIsEditing({ ...isEditing, country: false })
+                        }
+                      >
+                        Change
+                      </button>
+                    </>
                   ) : (
                     <>
                       <div>
@@ -323,6 +438,7 @@ const Profile = () => {
                         )}
                       </div>
                       <button
+                        type="button"
                         onClick={() =>
                           setIsEditing({ ...isEditing, country: true })
                         }
