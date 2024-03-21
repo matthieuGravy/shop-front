@@ -2,8 +2,8 @@ import { NavLink } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent } from "framer-motion";
 import { useSelector } from "react-redux";
+import { UserState } from "../../store/reducers/reducerConnection";
 
-import { RootState } from "../store/";
 import { ButtonAction, ButtonNavLinks } from "./Buttons";
 
 import Logout from "../users/Logout";
@@ -15,7 +15,8 @@ import WishIcon from "../icons/WishIcon";
 import Navlinks from "./Navlinks";
 
 function Topbar() {
-  const user = useSelector((state: RootState) => state.user.user);
+  // Dans Topnav.tsx
+  const { user } = useSelector((state: { user: UserState }) => state.user);
   const [isNavVisible, setIsNavVisible] = useState<boolean>(false);
   const [isHidden, setIsHidden] = useState<boolean>(false);
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -43,7 +44,7 @@ function Topbar() {
   });
 
   useEffect(() => {
-    if (scrollYProgress > 0.1) {
+    if (scrollYProgress.get() > 0.1) {
       setIsNavVisible(true);
     } else {
       setIsNavVisible(false);
@@ -65,20 +66,18 @@ function Topbar() {
       <motion.header
         variants={{ isVisible: { y: 0 }, isHidden: { y: -56 } }}
         initial={{ y: -56 }}
-        animate={
-          ({ y: 0, isHidden: { y: -56 } }, isHidden ? "isHidden" : "isVisible")
-        }
+        animate={isHidden ? "isHidden" : "isVisible"}
         transition={{ duration: 0.3 }}
         className="fixed top-0 w-full z-40"
       >
         <nav
-          className={`flex justify-between text-yellow-300 items-center min-h-14 relative bg-stone-600 ${
+          className={`flex justify-between items-center text-stone-200 min-h-14 relative bg-stone-600 ${
             isNavVisible ? "shadow-lg bg-transparent" : "shadow-none"
           }`}
         >
           <button
             onClick={toggleNav}
-            className={`lg:hidden xl:hidden flex-initial w-10 grid place-items-center ${
+            className={`lg:hidden xl:hidden flex-initial w-10 grid place-items-center text-yellow-300 ${
               isNavVisible ? "hidden " : "grid"
             }`}
           >
@@ -90,7 +89,7 @@ function Topbar() {
               isNavVisible ? "sticky" : "hidden"
             }`}
           >
-            <ul className="transition-all duration-300 lg:min-w-full lg:flex-1 flex justify-center text-center min-h-[100vh] flex-col lg:flex-row gap-y-5 lg:min-h-0 lg:h-14 -top-4 left-0 sticky bg-orange-500 w-full md:w-1/2  lg:bg-transparent relative ">
+            <ul className="transition-all duration-300 lg:min-w-full lg:flex-1 flex justify-center text-center min-h-[100vh] flex-col lg:flex-row gap-y-5 lg:min-h-0 lg:h-14 -top-4 left-0 sticky bg-stone-600 w-full md:w-1/2  lg:bg-transparent relative ">
               <button
                 onClick={toggleNav}
                 className="lg:hidden xl:hidden absolute right-5 top-5"
@@ -100,10 +99,6 @@ function Topbar() {
               </button>
 
               <Navlinks onClick={toggleNav} />
-
-              <figure className="pb-12  lg:pb-0 flex justify-center lg:px-3 ">
-                <NavLink></NavLink>
-              </figure>
             </ul>
           </section>
           <section

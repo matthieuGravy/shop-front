@@ -1,3 +1,4 @@
+import { User } from "../reducers/reducerConnection";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT = "LOGOUT";
 
@@ -9,19 +10,23 @@ interface LoginSuccessAction {
 interface LogoutAction {
   type: typeof LOGOUT;
 }
+interface UnknownAction {
+  type: unknown;
+  payload?: unknown;
+}
 
-export type UserActionTypes = LoginSuccessAction | LogoutAction;
+export type UserActionTypes = LoginSuccessAction | LogoutAction | UnknownAction;
 
 export const loginSuccess = (user: User): UserActionTypes => {
-  if (!user.id) {
+  if (!user.user.id) {
     throw new Error("User ID is missing in the payload");
   }
   return {
     type: LOGIN_SUCCESS,
     payload: {
-      id: user.id,
-      email: user.email,
-      jwt: user.jwt,
+      id: user.user.id,
+      email: user.user.email,
+      jwt: user.user.jwt,
     },
   };
 };
@@ -35,15 +40,15 @@ export const logout = (): UserActionTypes => {
 export const SIGNUP_SUCCESS = "SIGNUP_SUCCESS";
 
 export const signupSuccess = (user: User): UserActionTypes => {
-  if (!user.id) {
+  if (!user.user.id) {
     throw new Error("User ID is missing in the payload");
   }
   return {
     type: SIGNUP_SUCCESS,
     payload: {
-      id: user.id,
-      email: user.email,
-      jwt: user.jwt,
+      id: user.user.id,
+      email: user.user.email,
+      jwt: user.user.jwt,
     },
   };
 };

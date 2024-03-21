@@ -1,8 +1,8 @@
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
-import { RootState } from "../../store/";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { UserState } from "../../store/reducers/reducerConnection";
 
 interface ProfileValues {
   firstname: string;
@@ -15,7 +15,7 @@ interface ProfileValues {
 }
 
 const Profile = () => {
-  const user = useSelector((state: RootState) => state.user.user);
+  const { user } = useSelector((state: { user: UserState }) => state.user);
 
   const [isEditing, setIsEditing] = useState({
     firstname: false,
@@ -26,9 +26,7 @@ const Profile = () => {
     zip: false,
     country: false,
   });
-
   const id = user ? user.id : "";
-
   const fetchUser = async () => {
     try {
       const response = await fetch(`http://localhost:3000/api/profile/${id}`);
@@ -100,10 +98,9 @@ const Profile = () => {
       .min(2, "Minimum 2 characters")
       .matches(/^[a-zA-Zéèêôï\s]{3,}$/, "Invalid country"),
   });
-  const submitForm = async (
-    values: ProfileValues,
-    { setSubmitting }: FormikHelpers<ProfileValues>
-  ) => {
+  const submitForm = async ({
+    setSubmitting,
+  }: FormikHelpers<ProfileValues>) => {
     try {
       const response = await fetch(`http://localhost:3000/api/profile/${id}`, {
         method: "PUT",

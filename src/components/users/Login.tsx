@@ -1,7 +1,10 @@
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import { loginSuccess } from "../../store/actions/actionConnection";
+import {
+  loginSuccess,
+  UserActionTypes,
+} from "../../store/actions/actionConnection";
 import { NavLink, useNavigate } from "react-router-dom";
 
 //import ReCAPTCHA from "react-google-recaptcha";
@@ -11,7 +14,7 @@ interface MyFormValues {
   password: string;
 }
 
-const Contactpage = () => {
+const Login = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -51,13 +54,13 @@ const Contactpage = () => {
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const data = await response.json();
-      const user = {
-        id: data.id,
-        email: data.email,
-        jwt: data.jwt,
-      };
-      dispatch(loginSuccess(user));
+      const user = await response.json();
+      console.log(user);
+      if (user && user.id) {
+        dispatch(loginSuccess({ user }));
+      } else {
+        console.error("User data is undefined");
+      }
       navigate("/");
       console.log("Form submitted");
     } catch (error) {
@@ -65,10 +68,10 @@ const Contactpage = () => {
         "Il y a eu un problème avec votre fetch opération: ",
         error
       );
-    } finally {
-      setSubmitting(false);
     }
+    setSubmitting(false);
   };
+
   return (
     <>
       {/*<ReCAPTCHA sitekey="votre-clé-de-site" onChange={handleRecaptcha}> */}
@@ -111,7 +114,7 @@ const Contactpage = () => {
                     className={`${
                       errors.password && touched.password
                         ? "border-red-500"
-                        : values.nom === ""
+                        : values.password === ""
                         ? "border-natural-50"
                         : "border-green-500"
                     }`}
@@ -139,4 +142,4 @@ const Contactpage = () => {
   );
 };
 
-export default Contactpage;
+export default Login;
