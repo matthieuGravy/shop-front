@@ -22,7 +22,10 @@ const rootReducer = combineReducers({
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const store = createStore(persistedReducer, composeEnhancers());
+export const store: Store<any, UnknownAction, unknown> = createStore(
+  persistedReducer,
+  composeEnhancers()
+);
 
 export const persistor = persistStore(store);
 

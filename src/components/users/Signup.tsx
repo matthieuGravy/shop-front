@@ -103,7 +103,7 @@ const Signup = () => {
                     className={`${
                       errors.password && touched.password
                         ? "border-red-500"
-                        : values.nom === ""
+                        : values.password === ""
                         ? "border-natural-50"
                         : "border-green-500"
                     }`}

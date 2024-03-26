@@ -1,4 +1,12 @@
-import { Formik, Field, Form, FormikHelpers } from "formik";
+import {
+  Formik,
+  FormikHelpers,
+  FormikProps,
+  Form,
+  Field,
+  FieldProps,
+} from "formik";
+
 import * as Yup from "yup";
 import { useSelector } from "react-redux";
 import { useEffect, useState } from "react";
@@ -131,7 +139,7 @@ const Profile = () => {
       {user ? (
         <>
           <Formik
-            initialValues={userData}
+            initialValues={initialUserData}
             validationSchema={ProfileSchema}
             onSubmit={submitForm}
           >
@@ -145,11 +153,11 @@ const Profile = () => {
                         id="firstname"
                         name="firstname"
                         className={classnameInput}
-                        onBlur={() => {
+                        onBlur={(event: React.FocusEvent<HTMLInputElement>) => {
                           setIsEditing({ ...isEditing, firstname: false });
                           setInitialUserData({
                             ...initialUserData,
-                            firstname: event.target.value,
+                            firstname: event.target ? event.target.value : "",
                           });
                         }}
                       />
@@ -442,7 +450,7 @@ const Profile = () => {
                   {errors.zip && touched.zip ? (
                     <p className="text-red-500 left-1">{errors.zip}</p>
                   ) : initialUserData.zip.toString().length === 0 ? (
-                    <p>""</p>
+                    <p></p>
                   ) : (
                     <div className="text-green-500">V</div>
                   )}

@@ -1,10 +1,7 @@
 import { Formik, Field, Form, FormikHelpers } from "formik";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
-import {
-  loginSuccess,
-  UserActionTypes,
-} from "../../store/actions/actionConnection";
+import { loginSuccess } from "../../store/actions/actionConnection";
 import { NavLink, useNavigate } from "react-router-dom";
 
 //import ReCAPTCHA from "react-google-recaptcha";

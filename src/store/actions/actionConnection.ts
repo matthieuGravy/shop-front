@@ -2,7 +2,7 @@ import { User } from "../reducers/reducerConnection";
 export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGOUT = "LOGOUT";
 
-interface LoginSuccessAction {
+export interface LoginSuccessAction {
   type: typeof LOGIN_SUCCESS;
   payload: User;
 }
@@ -11,7 +11,7 @@ interface LogoutAction {
   type: typeof LOGOUT;
 }
 interface UnknownAction {
-  type: unknown;
+  type: string;
   payload?: unknown;
 }
 

@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-import { logout, UserActionTypes } from "../../store/actions/actionConnection";
+import { logout } from "../../store/actions/actionConnection";
 
 interface LogoutProps {
   onClick?: () => void;
@@ -22,7 +22,7 @@ const Logout: React.FC<LogoutProps> = ({ onClick, className }) => {
         throw new Error("Logout failed");
       }
       console.log("déconnecté avant");
-      dispatch<UserActionTypes>(logout());
+      dispatch<LogoutAction>(logout());
       navigateToHomepage();
       console.log("déconnecté après");
     } catch (error) {

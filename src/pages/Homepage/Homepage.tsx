@@ -6,6 +6,7 @@ import { ButtonAction } from "../../components/blocs/Buttons";
 
 const Homepage = () => {
   const user = useSelector((state: RootState) => state.user);
+  const userEmail = user?.user ? (user.user as any).email : null;
 
   console.log(user);
 
@@ -13,10 +14,9 @@ const Homepage = () => {
     <>
       <div>
         <h1>Jumbotop Home</h1>
-        {user.user ? (
+        {user && user.user ? (
           <>
-            <h2>Welcome, {user.user.email}</h2>
-            <h3>Logout</h3>
+            <h2>{`Welcome, ${userEmail}`}</h2> <h3>Logout</h3>
             <Logout />
           </>
         ) : (
